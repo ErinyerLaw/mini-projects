@@ -37,8 +37,8 @@ python text_analyzer.py example.txt --top 10 --json
 
 ```text
 Text analysis
-Characters: 25
-Characters without spaces: 22
+Characters: 27
+Characters without spaces: 23
 Words: 4
 Unique words: 3
 Sentences: 2
