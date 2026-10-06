@@ -1,0 +1,26 @@
+name: C++ maze
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/maze-shortest-path
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build program
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic maze.cpp main.cpp -o maze
+      - name: Build tests
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic maze.cpp maze_test.cpp -o maze_test
+      - name: Run tests and example
+        run: |
+          ./maze_test
+          ./maze example.txt
