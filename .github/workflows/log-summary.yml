@@ -1,0 +1,23 @@
+name: C++ log summary
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/log-summary
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build program
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic log_summary.cpp main.cpp -o log_summary
+      - name: Build tests
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic log_summary.cpp log_summary_test.cpp -o log_summary_test
+      - name: Run tests and example
+        run: |
+          ./log_summary_test
+          ./log_summary sample.log
