@@ -1,0 +1,23 @@
+name: C++ config diff
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/config-diff
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build program
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic config_diff.cpp main.cpp -o config_diff
+      - name: Build tests
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic config_diff.cpp config_diff_test.cpp -o config_diff_test
+      - name: Run tests and example
+        run: |
+          ./config_diff_test
+          ./config_diff old.conf new.conf
