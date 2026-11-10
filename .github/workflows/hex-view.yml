@@ -1,0 +1,30 @@
+name: C++ hex view
+
+on:
+  push:
+    branches:
+      - project/2026-11-01-hex-view
+  pull_request:
+    paths:
+      - "projects/hex-view/**"
+      - ".github/workflows/hex-view.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/hex-view
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build program
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic hex_view.cpp main.cpp -o hex_view
+      - name: Build tests
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic hex_view.cpp hex_view_test.cpp -o hex_view_test
+      - name: Run tests and example
+        run: |
+          ./hex_view_test
+          ./hex_view example.txt
