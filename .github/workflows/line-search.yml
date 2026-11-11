@@ -1,0 +1,23 @@
+name: C++ line search
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/line-search
+    steps:
+      - uses: actions/checkout@v6
+      - name: Build program
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic line_search.cpp main.cpp -o line_search
+      - name: Build tests
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic line_search.cpp line_search_test.cpp -o line_search_test
+      - name: Run tests and example
+        run: |
+          ./line_search_test
+          ./line_search Error example.txt
