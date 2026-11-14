@@ -1,0 +1,30 @@
+name: C++ directory report
+
+on:
+  push:
+    branches:
+      - project/2026-11-14-directory-report
+  pull_request:
+    paths:
+      - "projects/directory-report/**"
+      - ".github/workflows/directory-report.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/directory-report
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build program
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic directory_report.cpp main.cpp -o directory_report
+      - name: Build tests
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic directory_report.cpp directory_report_test.cpp -o directory_report_test
+      - name: Run tests and example
+        run: |
+          ./directory_report_test
+          ./directory_report example
