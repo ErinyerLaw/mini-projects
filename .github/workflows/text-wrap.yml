@@ -1,0 +1,30 @@
+name: C++ text wrap
+
+on:
+  push:
+    branches:
+      - project/2026-11-20-text-wrap
+  pull_request:
+    paths:
+      - "projects/text-wrap/**"
+      - ".github/workflows/text-wrap.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/text-wrap
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build program
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic text_wrap.cpp main.cpp -o text_wrap
+      - name: Build tests
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic text_wrap.cpp text_wrap_test.cpp -o text_wrap_test
+      - name: Run tests and example
+        run: |
+          ./text_wrap_test
+          ./text_wrap 10 example.txt
