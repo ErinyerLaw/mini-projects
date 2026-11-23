@@ -1,0 +1,30 @@
+name: C++ top-k frequent
+
+on:
+  push:
+    branches:
+      - project/2026-11-23-top-k-frequent
+  pull_request:
+    paths:
+      - "projects/top-k-frequent/**"
+      - ".github/workflows/top-k-frequent.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/top-k-frequent
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build program
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic top_k.cpp main.cpp -o top_k
+      - name: Build tests
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic top_k.cpp top_k_test.cpp -o top_k_test
+      - name: Run tests and example
+        run: |
+          ./top_k_test
+          ./top_k 2 example.txt
