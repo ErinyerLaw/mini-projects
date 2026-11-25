@@ -1,0 +1,3 @@
+food 35000
+transport 12000
+food 15000
