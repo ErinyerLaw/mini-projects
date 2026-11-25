@@ -1,0 +1,30 @@
+name: C++ expense summary
+
+on:
+  push:
+    branches:
+      - project/2026-11-25-expense-summary
+  pull_request:
+    paths:
+      - "projects/expense-summary/**"
+      - ".github/workflows/expense-summary.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/expense-summary
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build program
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic expense_summary.cpp main.cpp -o expense_summary
+      - name: Build tests
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic expense_summary.cpp expense_summary_test.cpp -o expense_summary_test
+      - name: Run tests and example
+        run: |
+          ./expense_summary_test
+          ./expense_summary example.txt
