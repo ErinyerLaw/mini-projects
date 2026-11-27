@@ -1,0 +1,30 @@
+name: C++ prime sieve
+
+on:
+  push:
+    branches:
+      - project/2026-11-27-prime-sieve
+  pull_request:
+    paths:
+      - "projects/prime-sieve/**"
+      - ".github/workflows/prime-sieve.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: projects/prime-sieve
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build program
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic prime_sieve.cpp main.cpp -o prime_sieve
+      - name: Build tests
+        run: g++ -std=c++17 -Wall -Wextra -Werror -pedantic prime_sieve.cpp prime_sieve_test.cpp -o prime_sieve_test
+      - name: Run tests and example
+        run: |
+          ./prime_sieve_test
+          ./prime_sieve 30
